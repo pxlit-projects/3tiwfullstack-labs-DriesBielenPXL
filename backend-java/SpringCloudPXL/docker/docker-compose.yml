@@ -12,7 +12,10 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - ./mysql_data:/var/lib/mysql
+      # Use a Docker named volume instead of bind-mounting the host filesystem.
+      # This avoids macOS AppleDouble and permission issues when the project
+      # lives on an external exFAT/NTFS drive.
+      - mysql_data:/var/lib/mysql
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
@@ -25,3 +28,7 @@ services:
       - "8088:80"
     depends_on:
       - mysql
+
+volumes:
+  # Docker-managed volume for MySQL data (safer than bind-mounting on macOS external drives)
+  mysql_data:
