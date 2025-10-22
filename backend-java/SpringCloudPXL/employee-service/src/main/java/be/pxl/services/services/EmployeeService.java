@@ -1,9 +1,12 @@
 package be.pxl.services.services;
 
 
+import be.pxl.services.client.NotificationClient;
 import be.pxl.services.domain.Employee;
+import be.pxl.services.model.NotificationRequest;
 import be.pxl.services.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +17,8 @@ public class EmployeeService implements IEmployeeService{
 
     private final EmployeeRepository employeeRepository;
 
+    private final NotificationClient notificationClient;
+
     @Override
     public List<Employee> getAllEmployees() {
         return employeeRepository.findAll();
@@ -21,7 +26,13 @@ public class EmployeeService implements IEmployeeService{
 
     @Override
     public Employee addEmployee(Employee employee) {
-        return employeeRepository.save(employee);
+        Employee savedEmployee = employeeRepository.save(employee);
+
+        NotificationRequest notificationRequest = NotificationRequest.builder().message("Employee created").sender("Dries").build();
+
+        notificationClient.sendNotification(notificationRequest);
+
+        return savedEmployee;
     }
 
     @Override
