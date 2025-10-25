@@ -7,10 +7,10 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>discovery-service</artifactId>
+    <artifactId>gateway-service</artifactId>
     <packaging>jar</packaging>
 
-    <name>discovery-service</name>
+    <name>gateway-service</name>
     <url>http://maven.apache.org</url>
 
     <properties>
@@ -24,8 +24,8 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+            <artifactId>spring-cloud-starter-gateway</artifactId>
         </dependency>
-    </dependencies>
 
+    </dependencies>
 </project>
