@@ -2,7 +2,7 @@ version: '3.8'
 services:
   mysql:
     image: mysql:latest
-    container_name: mysql_db
+    container_name: mysql_SpringCloudPXL
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
@@ -19,7 +19,7 @@ services:
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
-    container_name: phpmyadmin
+    container_name: phpmyadmin_SpringCloudPXL
     restart: always
     environment:
       PMA_HOST: mysql
@@ -29,6 +29,19 @@ services:
     depends_on:
       - mysql
 
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    container_name: rabbitmq_SpringCloudPXL
+    restart: always
+    ports:
+      - "5672:5672"    # AMQP
+      - "15672:15672"  # Management UI
+    # Using default guest/guest which works from the host (localhost)
+    # If you run producers/consumers in containers, consider creating a non-guest user.
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
 volumes:
   # Docker-managed volume for MySQL data (safer than bind-mounting on macOS external drives)
   mysql_data:
+  rabbitmq_data:
